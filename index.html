@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"><title>captcha-solver-test</title></head>
+  <body>
+    <h2>captcha-solver-test</h2>
+    <div id="info"></div>
+    <img id="img" style="max-width:90%;max-height:400px;" />
+    <div><strong>Solved:</strong> <span id="solved">--</span></div>
+    <script>
+      function qs(name){ let u=new URL(window.location.href); return u.searchParams.get(name); }
+      const imgUrl = qs('url');
+      document.getElementById('info').innerText = 'Image URL: ' + (imgUrl || 'none');
+      if (imgUrl) document.getElementById('img').src = imgUrl;
+      fetch('samples.json').then(r=>r.json()).then(map=>{
+        if (!imgUrl) return;
+        const name = imgUrl.split('/').pop();
+        document.getElementById('solved').innerText = map[name] || 'NOT_KNOWN';
+      }).catch(()=>{});
+    </script>
+  </body>
+</html>
